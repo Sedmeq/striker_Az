@@ -1,6 +1,7 @@
 package org.example.striker_az.controller;
 
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.example.striker_az.dto.*;
 import org.example.striker_az.entity.*;
 import org.example.striker_az.service.*;
@@ -19,6 +20,7 @@ import java.util.List;
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
+@SecurityRequirement(name = "bearerAuth")
 public class UserController {
     private final UserService userService;
 

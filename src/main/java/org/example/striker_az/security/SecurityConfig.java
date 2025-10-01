@@ -30,7 +30,13 @@ public class SecurityConfig {
                 .csrf().disable()
                 .cors().and()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/auth/**").permitAll()
+                // AŞAĞIDAKI SƏTİRLƏRİ ƏLAVƏ EDİN
+                .requestMatchers(
+                        "/api/auth/**",
+                        "/v3/api-docs/**",
+                        "/swagger-ui/**",
+                        "/swagger-ui.html"
+                ).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()
