@@ -20,20 +20,36 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: sb22022202@gmail.com
-    password: salambaku2202
+    username: ${MAIL_USERNAME:sb22022202@gmail.com}
+    password: ${MAIL_PASSWORD:your-app-password}
     properties:
       mail:
         smtp:
           auth: true
           starttls:
             enable: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
 
 jwt:
-  secret: strikerazSecretKey2024VeryLongSecretKeyForSecurityPurposes
+  secret: ${JWT_SECRET:strikerazSecretKey2024VeryLongSecretKeyForSecurityPurposes}
   expiration: 86400000
 
 server:
   port: 8080
   error:
     include-message: always
+    include-stacktrace: on_param
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.example.striker_az: DEBUG

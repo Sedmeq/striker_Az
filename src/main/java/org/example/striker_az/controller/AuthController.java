@@ -1,19 +1,14 @@
 package org.example.striker_az.controller;
 
-
 import org.example.striker_az.dto.*;
 import org.example.striker_az.entity.*;
 import org.example.striker_az.service.*;
 import org.example.striker_az.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -21,7 +16,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class AuthController {
     private final UserService userService;
-    private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
     @PostMapping("/register")
@@ -37,11 +32,12 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request) {
         try {
-            Authentication auth = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
-            );
-
             User user = userService.findByEmail(request.getEmail());
+
+            if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+                return ResponseEntity.badRequest().body("Email və ya şifrə yanlışdır");
+            }
+
             String token = jwtUtil.generateToken(user.getEmail());
 
             LoginResponse response = new LoginResponse();

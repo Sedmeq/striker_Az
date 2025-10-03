@@ -3,27 +3,16 @@ package org.example.striker_az.service;
 import org.example.striker_az.dto.*;
 import org.example.striker_az.entity.*;
 import org.example.striker_az.repository.*;
-// lombok.RequiredArgsConstructor-u import siyahısından silin
-import org.springframework.context.annotation.Lazy; // BUNU ƏLAVƏ EDİN
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
-// @RequiredArgsConstructor // <-- BU SATIRI SİLİN
+@RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
-    // AŞAĞIDAKI KONSTRUKTORU ƏLAVƏ EDİN
-    public UserService(UserRepository userRepository, @Lazy PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @Transactional
     public User register(RegisterRequest request) {
