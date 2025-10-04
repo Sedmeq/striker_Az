@@ -53,12 +53,23 @@ public class TeamService {
                 .collect(Collectors.toList());
     }
 
+// TeamService.java faylına əlavə edilməli olan düzəliş
+
     private TeamResponse toResponse(Team team) {
         TeamResponse response = new TeamResponse();
         response.setId(team.getId());
         response.setName(team.getName());
-        response.setOwnerName(team.getOwner().getName());
-        response.setOwnerStrikerazId(team.getOwner().getStrikerazId());
+
+        // Yoxlama əlavə olunur
+        if (team.getOwner() != null) {
+            response.setOwnerName(team.getOwner().getName());
+            response.setOwnerStrikerazId(team.getOwner().getStrikerazId());
+        } else {
+            // Sahibi olmayan komandalar üçün standart dəyərlər
+            response.setOwnerName("Sahib təyin edilməyib");
+            response.setOwnerStrikerazId(null);
+        }
+
         response.setPlayerCount(team.getPlayerCount());
         response.setMaxPlayers(team.getMaxPlayers());
         response.setAvailableSlots(team.getAvailableSlots());
